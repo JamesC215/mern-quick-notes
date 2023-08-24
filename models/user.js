@@ -4,6 +4,13 @@ const bcrypt = require('bcrypt');
 
 const SALT_ROUNDS = 6;
 
+const noteSchema = new Schema({
+  text: {type: String, required: true},
+  user: {type: Object, required: true}
+}, {
+  timestamps: true,
+}
+);
 const userSchema = new Schema({
     name: {type: String, required: true},
     email: {
@@ -35,5 +42,6 @@ userSchema.pre('save', async function(next) {
     // Replace the password with the computed hash
     this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
 });
+
 
 module.exports = mongoose.model('User', userSchema);
